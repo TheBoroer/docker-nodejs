@@ -47,7 +47,6 @@ if [ ! -d "/var/www/html/.git" ]; then
        git clone https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html
      fi
    fi
-   chown -Rf nginx.nginx /var/www/html
  fi
 else
  if [ ! -z "$GIT_REPULL" ]; then
@@ -55,31 +54,13 @@ else
    git -C /var/www/html fetch --all -p
    git -C /var/www/html reset HEAD --quiet
    git -C /var/www/html pull
-   chown -Rf nginx.nginx /var/www/html
  fi
-fi
-
-# Enable custom nginx config files if they exist
-if [ -f /var/www/html/conf/nginx/nginx-site.conf ]; then
-  cp /var/www/html/conf/nginx/nginx-site.conf /etc/nginx/sites-available/default.conf
-fi
-
-if [ -f /var/www/html/conf/nginx/nginx-site-ssl.conf ]; then
-  cp /var/www/html/conf/nginx/nginx-site-ssl.conf /etc/nginx/sites-available/default-ssl.conf
 fi
 
 ## Install Node Packages
 if [ -f "$WEBROOT/package.json" ] ; then
   cd $WEBROOT && npm install && echo "NPM modules installed"
 fi
-
-# Display Version Details or not
-if [[ "$HIDE_NGINX_HEADERS" == "0" ]] ; then
- sed -i "s/server_tokens off;/server_tokens on;/g" /etc/nginx/nginx.conf
-fi
-
-# Always chown webroot for better mounting
-chown -Rf nginx.nginx /var/www/html
 
 # Run custom scripts
 if [[ "$RUN_SCRIPTS" == "1" ]] ; then
