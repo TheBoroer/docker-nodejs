@@ -1,6 +1,6 @@
 FROM alpine:3.4
 
-MAINTAINER ngineered <support@ngineered.co.uk>
+MAINTAINER boro <docker@bo.ro>
 
 RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && apk update && \
     apk add --no-cache bash \
