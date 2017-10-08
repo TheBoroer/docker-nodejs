@@ -20,9 +20,16 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     libffi-dev \
     ca-certificates \
     dialog \
-    git && \
+    git \
+    make \
+    libnetfilter_queue-dev && \
     mkdir -p /var/www/app && \
     mkdir -p /var/log/supervisor
+    
+# Install Freebind
+RUN mkdir /home/freebind-source && git clone https://github.com/blechschmidt/freebind.git /home/freebind-source/.
+RUN cd /home/freebind-source && make install
+RUN rm -rf /home/freebind-source
 
 ADD conf/supervisord.conf /etc/supervisord.conf
 
