@@ -10,7 +10,8 @@ The Docker hub build can be found here: [https://hub.docker.com/u/boro/nodejs/](
 ## Versions
 | Tag | nodeJS | Alpine |
 |-----|--------|--------|
-| latest | 4.4.4 | 3.4 |
+| 8.6.0 | 8.6.0 | 3.6 |
+| 4.6.0 | 4.6.0 | 3.4 |
 
 ## Building from source
 To build from source you need to clone the git repo and run docker build:
