@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM node:8.6.0-alpine
 
 MAINTAINER boro <docker@bo.ro>
 
@@ -8,7 +8,6 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     wget \
     supervisor \
     curl \
-    nodejs-lts \
     bc \
     gcc \
     musl-dev \
