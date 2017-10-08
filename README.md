@@ -8,10 +8,10 @@ If you have any improvements please submit a pull request.
 ### Docker hub repository
 The Docker hub build can be found here: [https://hub.docker.com/u/boro/nodejs/](https://hub.docker.com/u/boro/nodejs/)
 ## Versions
-| Tag | nodeJS | Alpine |
-|-----|--------|--------|
-| 8.6.0 | 8.6.0 | 3.6 |
-| 4.6.0 | 4.6.0 | 3.4 |
+| Tag | nodeJS | Alpine | Freebind |
+|-----|--------|--------|----------|
+| 8.6.0 | 8.6.0 | 3.6 | yes |
+| 4.6.0 | 4.6.0 | 3.4 | no |
 
 ## Building from source
 To build from source you need to clone the git repo and run docker build:
