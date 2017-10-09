@@ -80,6 +80,9 @@ if [ ! -z "$HE_ENABLED" ]; then
     echo "         up ip -6 route add default dev he-ipv6" >> /etc/network/interfaces
     echo "         up ip -6 route add local ${HE_ROUTED_BLOCK} dev lo" >> /etc/network/interfaces
     echo "         down ip -6 route del default dev he-ipv6" >> /etc/network/interfaces
+    
+    # Bring he-ipv6 interface up
+    /sbin/ifup he-ipv6
 fi
 
 # Run custom scripts
