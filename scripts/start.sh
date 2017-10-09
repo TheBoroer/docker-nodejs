@@ -62,6 +62,26 @@ if [ -f "$WEBROOT/package.json" ] ; then
   cd $WEBROOT && npm install && echo "NPM modules installed"
 fi
 
+if [ ! -z "$HE_ENABLED" ]; then
+    # Example/Placeholder Values
+    # HE_ENDPOINT="xxx.xxx.xxx.xxx"
+    # HE_CLIENT="xxxx:xxxx:xxxx:xxxx::2"
+    # HE_SERVER="xxxx:xxx:xxxx:xxxx::1"
+    # HE_ROUTED_BLOCK="xxxx:xxxx:xxxx::/xx"
+    
+    # Create HE Tunnel Interface
+    echo "auto he-ipv6" > /etc/network/interfaces
+    echo "iface he-ipv6 inet6 v4tunnel" >> /etc/network/interfaces
+    echo "         endpoint ${HE_ENDPOINT}" >> /etc/network/interfaces
+    echo "         ttl 255" >> /etc/network/interfaces
+    echo "         address ${HE_CLIENT}" >> /etc/network/interfaces
+    echo "         netmask 64" >> /etc/network/interfaces
+    echo "         gateway ${HE_SERVER}" >> /etc/network/interfaces
+    echo "         up ip -6 route add default dev he-ipv6" >> /etc/network/interfaces
+    echo "         up ip -6 route add local ${HE_ROUTED_BLOCK} dev lo" >> /etc/network/interfaces
+    echo "         down ip -6 route del default dev he-ipv6" >> /etc/network/interfaces
+fi
+
 # Run custom scripts
 if [[ "$RUN_SCRIPTS" == "1" ]] ; then
   if [ -d "/var/www/html/scripts/" ]; then
