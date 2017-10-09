@@ -83,6 +83,7 @@ if [ ! -z "$HE_ENABLED" ]; then
     
     # Bring he-ipv6 interface up
     /sbin/ifup he-ipv6
+    /sbin/ip -6 route add local $HE_ROUTED_BLOCK dev lo
 fi
 
 # Run custom scripts
