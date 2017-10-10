@@ -36,15 +36,15 @@ if [ ! -d "/var/www/html/.git" ]; then
    rm -Rf /var/www/html/*
    if [ ! -z "$GIT_BRANCH" ]; then
      if [ -z "$GIT_USERNAME" ] && [ -z "$GIT_PERSONAL_TOKEN" ]; then
-       git clone -b $GIT_BRANCH $GIT_REPO /var/www/html/
+       git clone --recursive -b $GIT_BRANCH $GIT_REPO /var/www/html/
      else
-       git clone -b ${GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html
+       git clone --recursive -b ${GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html
      fi
    else
      if [ -z "$GIT_USERNAME" ] && [ -z "$GIT_PERSONAL_TOKEN" ]; then
-       git clone $GIT_REPO /var/www/html/
+       git clone --recursive $GIT_REPO /var/www/html/
      else
-       git clone https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html
+       git clone --recursive https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html
      fi
    fi
  fi
@@ -54,6 +54,7 @@ else
    git -C /var/www/html fetch --all -p
    git -C /var/www/html reset HEAD --quiet
    git -C /var/www/html pull
+   git -C /var/www/html submodule update --init
  fi
 fi
 
