@@ -41,6 +41,8 @@ RUN rm -rf /home/freebind-source
 
 ADD conf/supervisord.conf /etc/supervisord.conf
 
+RUN npm install -g nodemon
+
 # Add Scripts
 ADD scripts/start.sh /start.sh
 ADD scripts/pull /usr/bin/pull
