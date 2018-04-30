@@ -1,4 +1,4 @@
-FROM node:8.11.1-alpine
+FROM node:8.6.0-alpine
 
 MAINTAINER boro <docker@bo.ro>
 
