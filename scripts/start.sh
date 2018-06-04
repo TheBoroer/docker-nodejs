@@ -53,6 +53,7 @@ else
    git -C /var/www/html rm -r --quiet --cached /var/www/html
    git -C /var/www/html fetch --all -p
    git -C /var/www/html reset HEAD --quiet
+   git -C /var/www/html checkout "$GIT_BRANCH"
    git -C /var/www/html pull
    git -C /var/www/html submodule update --init
  fi
