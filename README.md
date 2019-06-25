@@ -10,7 +10,8 @@ The Docker hub build can be found here: [https://hub.docker.com/u/boro/nodejs/](
 ## Versions
 | Tag | nodeJS | Alpine | Freebind ([repo](https://github.com/blechschmidt/freebind)) |
 |-----|--------|--------|----------|
-| latest | 8.10.0 | 3.6 | yes |
+| latest | 8.11.2 | 3.6 | yes |
+| 8.11.2 | 8.11.2 | 3.6 | yes |
 | 8.6.0 | 8.6.0 | 3.6 | yes |
 | 6.11.4 | 6.11.4 | 3.4 | yes |
 | 4.6.0 | 4.6.0 | 3.4 | no |
