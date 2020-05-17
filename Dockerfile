@@ -42,7 +42,7 @@ ADD src/ /app/
 
 # backwards compatibility after webroot change
 RUN mkdir -p /var/www/html
-RUN ln /app/ /var/www/html/
+RUN ln /app /var/www/html
 
 RUN mkdir -p /var/log/node/
 
