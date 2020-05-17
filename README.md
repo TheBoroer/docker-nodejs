@@ -10,8 +10,9 @@ The Docker hub build can be found here: [https://hub.docker.com/u/boro/nodejs/](
 ## Versions
 | Tag | nodeJS | Alpine | Freebind ([repo](https://github.com/blechschmidt/freebind)) |
 |-----|--------|--------|----------|
-| latest | 10.17.0 | 3.9 | yes |
-| 10.17.0 | 10.17.0 | 3.9 | yes ||
+| latest | 12.16.3 | 3.11 | yes |
+| 12.16.3 | 12.16.3 | 3.11 | yes |
+| 10.17.0 | 10.17.0 | 3.9 | yes |
 | 10.16.0 | 10.16.0 | 3.9 | yes |
 | 8.11.2 | 8.11.2 | 3.6 | yes |
 | 8.6.0 | 8.6.0 | 3.6 | yes |
@@ -44,14 +45,14 @@ At the moment the container looks for ```server.js``` in your web root and execu
 ### Available Configuration Parameters
 The following flags are a list of all the currently supported options that can be changed by passing in the variables to docker with the -e flag.
 
+- **NODE_START** : Set to a custom node start command (e.g. `npm start` or `node dist/server.js`). Defaults to `node server.js` in the `/app` directory.
+- **USE_YARN** : Set to 1 to install packages via Yarn instead of NPM.
  - **GIT_REPO** : URL to the repository containing your source code. If you are using a personal token, this is the https URL without https://, e.g github.com/project/ for ssh prepend with git@ e.g git@github.com:project.git
  - **GIT_BRANCH** : Select a specific branch (optional)
  - **GIT_EMAIL** : Set your email for code pushing (required for git to work)
  - **GIT_NAME** : Set your name for code pushing (required for git to work)
- - **SSH_KEY** : Private SSH deploy key for your repository base64 encoded (requires write permissions for pushing)
  - **GIT_PERSONAL_TOKEN** : Personal access token for your git account (required for HTTPS git access)
  - **GIT_USERNAME** : Git username for use with personal tokens. (required for HTTPS git access)
- - **WEBROOT** : Change the default webroot directory from `/var/www/html` to your own setting
  - **RUN_SCRIPTS** : Set to 1 to execute scripts
 
 
@@ -79,19 +80,8 @@ docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERN
 There is often an occasion where you need to run a script on code to do a transformation once code lands in the container. For this reason we have developed scripting support. By including a scripts folder in your git repository and passing the __RUN_SCRIPTS=1__ flag to your command line the container will execute your scripts. Please see the [repo layout guidelines](docs/repo_layout.md) for more details on how to organise this.
 
 ## Special Git Features
-Specify the ```GIT_EMAIL``` and ```GIT_NAME``` variables for this to work. They are used to set up git correctly and allow the following commands to work.
+Specify the ```GIT_EMAIL``` and ```GIT_NAME``` variables for this to work. They are used to set up git correctly and allow the container to push/pull.
 
-### Push code to Git
-To push code changes made within the container back to git run:
-```
-sudo docker exec -t -i <CONTAINER_NAME> /usr/bin/push
-```
-
-### Pull code from Git (Refresh)
-In order to refresh the code in a container and pull newer code from git run:
-```
-sudo docker exec -t -i <CONTAINER_NAME> /usr/bin/pull
-```
 
 ### Using environment variables
 
@@ -110,4 +100,4 @@ All logs should now print out in stdout/stderr and are available via the docker 
 docker logs <CONTAINER_NAME>
 ```
 ### WebRoot
-You can set your webroot in the container to anything you want using the ```WEBROOT``` variable e.g -e "WEBROOT=/var/www/html/public". By default code is checked out into /var/www/html/ so if your git repository does not have code in the root you'll need to use this variable.
+You can set your webroot in the container to anything you want using the ```WEBROOT``` variable e.g -e "WEBROOT=/app/public". By default code is checked out into /app/ so if your git repository does not have code in the root you'll need to use this variable.

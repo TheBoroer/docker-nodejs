@@ -1,4 +1,4 @@
-FROM node:10.17.0-alpine
+FROM node:12.16.3-alpine
 
 MAINTAINER boro <docker@bo.ro>
 
@@ -35,15 +35,14 @@ ADD conf/supervisord.conf /etc/supervisord.conf
 
 # Add Scripts
 ADD scripts/start.sh /start.sh
-ADD scripts/pull /usr/bin/pull
-ADD scripts/push /usr/bin/push
-RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push && chmod 755 /start.sh
+RUN chmod 755 /start.sh
 
 # copy in code
-ADD src/ /var/www/html/
+ADD src/ /app/
+RUN ln /app/ /var/www/html/
 RUN mkdir -p /var/log/node/
 
-VOLUME /var/www/html/
+VOLUME /app/
 
 #CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 CMD ["/start.sh"]

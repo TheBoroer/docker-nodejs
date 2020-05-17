@@ -1,23 +1,10 @@
 #!/bin/bash
 
-# Disable Strict Host checking for non interactive git clones
-
-mkdir -p -m 0700 /root/.ssh
-echo -e "Host *\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
-
-if [ ! -z "$SSH_KEY" ]; then
- echo $SSH_KEY > /root/.ssh/id_rsa.base64
- base64 -d /root/.ssh/id_rsa.base64 > /root/.ssh/id_rsa
- chmod 600 /root/.ssh/id_rsa
-fi
-
-# Set custom webroot
-if [ ! -z "$WEBROOT" ]; then
- sed -i "s#root /var/www/html;#root ${WEBROOT};#g" /etc/nginx/sites-available/default.conf && \
- sed -i "s#/var/www/html#${WEBROOT}#g" /etc/supervisord.conf
-else
- WEBROOT=/var/www/html
-fi
+# Set custom project root (/app instead of /var/www/html)
+WEBROOT=/app
+sed -i "s#root /var/www/html;#root ${WEBROOT};#g" /etc/nginx/sites-available/default.conf && \
+sed -i "s#/var/www/html#${WEBROOT}#g" /etc/supervisord.conf
+cd $WEBROOT
 
 # Setup git variables
 if [ ! -z "$GIT_EMAIL" ]; then
@@ -29,40 +16,45 @@ if [ ! -z "$GIT_NAME" ]; then
 fi
 
 # Dont pull code down if the .git folder exists
-if [ ! -d "/var/www/html/.git" ]; then
+if [ ! -d "/app/.git" ]; then
  # Pull down code from git for our site!
  if [ ! -z "$GIT_REPO" ]; then
    # Remove the test index file
-   rm -Rf /var/www/html/*
+   rm -Rf /app/*
    if [ ! -z "$GIT_BRANCH" ]; then
      if [ -z "$GIT_USERNAME" ] && [ -z "$GIT_PERSONAL_TOKEN" ]; then
-       git clone --recursive -b $GIT_BRANCH $GIT_REPO /var/www/html/
+       git clone --recursive -b $GIT_BRANCH $GIT_REPO /app/
      else
-       git clone --recursive -b ${GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html
+       git clone --recursive -b ${GIT_BRANCH} https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /app
      fi
    else
      if [ -z "$GIT_USERNAME" ] && [ -z "$GIT_PERSONAL_TOKEN" ]; then
-       git clone --recursive $GIT_REPO /var/www/html/
+       git clone --recursive $GIT_REPO /app/
      else
-       git clone --recursive https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /var/www/html
+       git clone --recursive https://${GIT_USERNAME}:${GIT_PERSONAL_TOKEN}@${GIT_REPO} /app
      fi
    fi
  fi
 else
  if [ ! -z "$GIT_REPULL" ]; then
-   git -C /var/www/html rm -r --quiet --cached /var/www/html
-   git -C /var/www/html fetch --all -p
-   git -C /var/www/html reset HEAD --quiet
-   git -C /var/www/html checkout "$GIT_BRANCH"
-   git -C /var/www/html pull
-   git -C /var/www/html submodule update --init
+   git -C /app rm -r --quiet --cached /app
+   git -C /app fetch --all -p
+   git -C /app reset HEAD --quiet
+   git -C /app checkout "$GIT_BRANCH"
+   git -C /app pull
+   git -C /app submodule update --init
  fi
 fi
 
 ## Install Node Packages
 if [ -f "$WEBROOT/package.json" ] ; then
-  cd $WEBROOT && npm install && echo "NPM modules installed"
+  if [ ! -z "$USE_YARN" ]; then
+    yarn && echo "Node modules installed via YARN"
+  else
+    npm install && echo "Node modules installed via NPM"
+  fi
 fi
+
 
 if [ ! -z "$HE_ENABLED" ]; then
     # Example/Placeholder Values
@@ -90,15 +82,25 @@ fi
 
 # Run custom scripts
 if [[ "$RUN_SCRIPTS" == "1" ]] ; then
-  if [ -d "/var/www/html/scripts/" ]; then
+  if [ -d "/app/scripts/" ]; then
     # make scripts executable incase they aren't
-    chmod -Rf 750 /var/www/html/scripts/*
+    chmod -Rf 750 /app/scripts/*
     # run scripts in number order
-    for i in `ls /var/www/html/scripts/`; do /var/www/html/scripts/$i ; done
+    for i in `ls /app/scripts/`; do /app/scripts/$i ; done
   else
     echo "Can't find script directory"
   fi
 fi
 
 # Start supervisord and services
-/usr/bin/supervisord -n -c /etc/supervisord.conf
+#/usr/bin/supervisord -n -c /etc/supervisord.conf
+
+if [ ! -z "$NODE_START" ]; then
+  echo "Starting using custom NODE_START: ${NODE_START}"
+else
+  echo "Starting using default NODE_START: /usr/local/bin/node /app/server.js"
+  NODE_START=/usr/local/bin/node /app/server.js
+fi
+
+# Start App
+$NODE_START
