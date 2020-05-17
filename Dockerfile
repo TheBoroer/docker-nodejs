@@ -31,9 +31,6 @@ RUN mkdir /home/freebind-source && git clone https://github.com/blechschmidt/fre
 RUN cd /home/freebind-source && make install
 RUN rm -rf /home/freebind-source
 
-# Install Yarn
-RUN npm install --global yarn
-
 ADD conf/supervisord.conf /etc/supervisord.conf
 
 # Add Scripts
