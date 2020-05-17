@@ -41,7 +41,6 @@ RUN chmod 755 /start.sh
 ADD src/ /app/
 
 # backwards compatibility after webroot change
-RUN mkdir -p /var/www/html
 RUN ln -s /app /var/www/html
 
 RUN mkdir -p /var/log/node/
