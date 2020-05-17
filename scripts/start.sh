@@ -2,7 +2,6 @@
 
 # Set custom project root (/app instead of /var/www/html)
 WEBROOT=/app
-sed -i "s#root /var/www/html;#root ${WEBROOT};#g" /etc/nginx/sites-available/default.conf && \
 sed -i "s#/var/www/html#${WEBROOT}#g" /etc/supervisord.conf
 cd $WEBROOT
 
@@ -99,7 +98,7 @@ if [ ! -z "$NODE_START" ]; then
   echo "Starting using custom NODE_START: ${NODE_START}"
 else
   echo "Starting using default NODE_START: /usr/local/bin/node /app/server.js"
-  NODE_START=/usr/local/bin/node /app/server.js
+  NODE_START="/usr/local/bin/node /app/server.js"
 fi
 
 # Start App
