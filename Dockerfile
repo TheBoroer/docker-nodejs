@@ -13,7 +13,6 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     musl-dev \
     linux-headers \
     python \
-    python-dev \
     py-pip \
     augeas-dev \
     openssl-dev \
