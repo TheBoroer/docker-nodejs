@@ -12,8 +12,9 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     gcc \
     musl-dev \
     linux-headers \
-    python \
-    py-pip \
+    python3 \
+    python3-dev \
+    py3-pip \
     augeas-dev \
     openssl-dev \
     libffi-dev \
