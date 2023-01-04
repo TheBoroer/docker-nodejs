@@ -1,4 +1,4 @@
-FROM node:16.19.0-alpine
+FROM node:16-alpine
 
 MAINTAINER boro <docker@bo.ro>
 
@@ -13,7 +13,6 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     musl-dev \
     linux-headers \
     python \
-    python-dev \
     py-pip \
     augeas-dev \
     openssl-dev \
