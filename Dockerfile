@@ -12,7 +12,7 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     gcc \
     musl-dev \
     linux-headers \
-    python3=~3.9 \
+    python3=3.9.13 \
     python3-dev \
     py3-pip \
     augeas-dev \
