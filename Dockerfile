@@ -128,6 +128,9 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     mkdir -p /var/www/app && \
     mkdir -p /var/log/supervisor
     
+# Alias python/pip to python3/pip3
+RUN ln -s /usr/bin/python3 /usr/bin/python && ln -s /usr/bin/pip3 /usr/bin/pip
+
 # Install Freebind
 RUN mkdir /home/freebind-source && git clone https://github.com/blechschmidt/freebind.git /home/freebind-source/.
 RUN cd /home/freebind-source && make install
