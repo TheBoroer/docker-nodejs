@@ -2,46 +2,40 @@
 ## Build node part of image
 ##
 
-FROM node:18-alpine
-
-RUN npm install -g yarn \
-  # smoke test
-  && yarn --version
+FROM node:18-alpine3.18
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
-
-CMD [ "node" ]
 
 
 ##
 ## Build extras
 ##
 RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && apk update && \
-    apk add --no-cache bash \
-    openssh-client \
-    wget \
-    supervisor \
-    curl \
-    bc \
-    gcc \
-    musl-dev \
-    linux-headers \
-    python3 \
-    python3-dev \
-    py3-pip \
-    augeas-dev \
-    openssl-dev \
-    libffi-dev \
-    ca-certificates \
-    dialog \
-    git \
-    make \
-    libnetfilter_queue-dev && \
-    mkdir -p /var/www/app && \
-    mkdir -p /var/log/supervisor
-    
+  apk add --no-cache bash \
+  openssh-client \
+  wget \
+  supervisor \
+  curl \
+  bc \
+  gcc \
+  musl-dev \
+  linux-headers \
+  python3 \
+  python3-dev \
+  py3-pip \
+  augeas-dev \
+  openssl-dev \
+  libffi-dev \
+  ca-certificates \
+  dialog \
+  git \
+  make \
+  libnetfilter_queue-dev && \
+  mkdir -p /var/www/app && \
+  mkdir -p /var/log/supervisor
+
 # Alias python/pip to python3/pip3 if it doesnt exist
 RUN test -e /usr/bin/python || ln -s /usr/bin/python3 /usr/bin/python 
 RUN test -e /usr/bin/pip || ln -s /usr/bin/pip3 /usr/bin/pip
