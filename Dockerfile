@@ -1,4 +1,4 @@
-FROM node:14-alpine3.17
+FROM node:12-alpine3.15
 
 #  Install extras
 RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && apk update && \
