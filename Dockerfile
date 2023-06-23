@@ -1,17 +1,10 @@
-##
-## Build node part of image
-##
-
 FROM node:18-alpine3.18
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-
-##
-## Build extras
-##
+# Install extras
 RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && apk update && \
   apk add --no-cache bash \
   openssh-client \
