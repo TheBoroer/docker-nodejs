@@ -94,7 +94,5 @@ steps:
 trigger:
   branch:
     - main
-    - master
   event:
     - push
-    - tag
