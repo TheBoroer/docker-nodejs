@@ -1,4 +1,6 @@
-FROM node:18-alpine3.18
+ARG NODE_VERSION=18
+
+FROM node:${NODE_VERSION}-alpine
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

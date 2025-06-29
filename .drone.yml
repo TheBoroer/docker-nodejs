@@ -1,0 +1,100 @@
+kind: pipeline
+type: docker
+name: build-nodejs-images
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build-node-14
+    image: plugins/docker
+    settings:
+      registry: docker.io
+      repo: boro/nodejs
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      build_args:
+        - NODE_VERSION=14
+      tags:
+        - node-14
+
+  - name: build-node-16
+    image: plugins/docker
+    settings:
+      registry: docker.io
+      repo: boro/nodejs
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      build_args:
+        - NODE_VERSION=16
+      tags:
+        - node-16
+
+  - name: build-node-18
+    image: plugins/docker
+    settings:
+      registry: docker.io
+      repo: boro/nodejs
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      build_args:
+        - NODE_VERSION=18
+      tags:
+        - node-18
+
+  - name: build-node-20
+    image: plugins/docker
+    settings:
+      registry: docker.io
+      repo: boro/nodejs
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      build_args:
+        - NODE_VERSION=20
+      tags:
+        - node-20
+
+  - name: build-node-22
+    image: plugins/docker
+    settings:
+      registry: docker.io
+      repo: boro/nodejs
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      build_args:
+        - NODE_VERSION=22
+      tags:
+        - node-22
+
+  - name: build-node-24
+    image: plugins/docker
+    settings:
+      registry: docker.io
+      repo: boro/nodejs
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      build_args:
+        - NODE_VERSION=24
+      tags:
+        - node-24
+
+trigger:
+  branch:
+    - main
+    - master
+  event:
+    - push
+    - tag
