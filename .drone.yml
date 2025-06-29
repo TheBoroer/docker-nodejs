@@ -1,13 +1,14 @@
+---
 kind: pipeline
 type: docker
-name: build-nodejs-images
+name: build-node-14
 
 platform:
   os: linux
   arch: amd64
 
 steps:
-  - name: build-node-14
+  - name: build
     image: plugins/docker
     settings:
       registry: docker.io
@@ -19,9 +20,25 @@ steps:
       build_args:
         - NODE_VERSION=14
       tags:
-        - node-14
+        - 14
 
-  - name: build-node-16
+trigger:
+  branch:
+    - main
+  event:
+    - push
+
+---
+kind: pipeline
+type: docker
+name: build-node-16
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build
     image: plugins/docker
     settings:
       registry: docker.io
@@ -33,9 +50,25 @@ steps:
       build_args:
         - NODE_VERSION=16
       tags:
-        - node-16
+        - 16
 
-  - name: build-node-18
+trigger:
+  branch:
+    - main
+  event:
+    - push
+
+---
+kind: pipeline
+type: docker
+name: build-node-18
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build
     image: plugins/docker
     settings:
       registry: docker.io
@@ -47,9 +80,25 @@ steps:
       build_args:
         - NODE_VERSION=18
       tags:
-        - node-18
+        - 18
 
-  - name: build-node-20
+trigger:
+  branch:
+    - main
+  event:
+    - push
+
+---
+kind: pipeline
+type: docker
+name: build-node-20
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build
     image: plugins/docker
     settings:
       registry: docker.io
@@ -61,9 +110,25 @@ steps:
       build_args:
         - NODE_VERSION=20
       tags:
-        - node-20
+        - 20
 
-  - name: build-node-22
+trigger:
+  branch:
+    - main
+  event:
+    - push
+
+---
+kind: pipeline
+type: docker
+name: build-node-22
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build
     image: plugins/docker
     settings:
       registry: docker.io
@@ -75,9 +140,25 @@ steps:
       build_args:
         - NODE_VERSION=22
       tags:
-        - node-22
+        - 22
 
-  - name: build-node-24
+trigger:
+  branch:
+    - main
+  event:
+    - push
+
+---
+kind: pipeline
+type: docker
+name: build-node-24
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build
     image: plugins/docker
     settings:
       registry: docker.io
@@ -89,7 +170,7 @@ steps:
       build_args:
         - NODE_VERSION=24
       tags:
-        - node-24
+        - 24
 
 trigger:
   branch:
